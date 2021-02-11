@@ -1,0 +1,44 @@
+### IDE files and dirs
+
+*.iml
+.idea
+target
+src/test
+src/main/resources
+
+### Other files
+
+*.txt
+*.html
+*.xml
+*.tmpxml
+*.po
+
+### OS generated files
+
+.DS_Store
+.DS_Store?
+.localized
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+
+### Logs, databases and misc. 
+
+*.log
+*.sql
+*.sqlite
+*.sass-cache
+
+### Packages
+
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
