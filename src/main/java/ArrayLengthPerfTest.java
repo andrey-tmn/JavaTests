@@ -1,8 +1,29 @@
 import java.util.Arrays;
 
-public class MainPerfTest {
+/*
+    Проверяем, какой вариант определения длины массива в цикле быстрее:
+
+    --
+    for (int i = 0; i < arr1.length; i++)
+
+    --
+    int len = arr1.length;
+    for (int i = 0; i < len; i++)
+
+    --
+    final int len = arr1.length;
+    for (int i = 0; i < len; i++)
+
+ */
+
+public class ArrayLengthPerfTest {
+    // Мы будем создавать целочисленный массив длиной TEST_ARRAYS_SIZE,
+    // заполнять его случайными числами и сортировать
+    private static final int TEST_ARRAYS_SIZE = 30000;
+    // Сколько раз запускать каждый тест
+    private static final int TEST_TRY_CNT = 100;
+
     public static void main(String[] args) {
-        final int TEST_TRY_CNT = 100;
         String msg;
         // Запускаем каждый вариант по TEST_TRY_CNT раз, считаем среднее арифметическое
         double[] execTimes3 = new double[TEST_TRY_CNT];
@@ -10,45 +31,26 @@ public class MainPerfTest {
             execTimes3[i] = perfTestWithConst();
         }
         msg = "Вариант с константой отработывает за: %.2f мс.%n";
-        System.out.printf(msg, calcArrayAverage(execTimes3));
+        System.out.printf(msg, ArrayMethods.calcArrayAverage(execTimes3));
 
         double[] execTimes2 = new double[TEST_TRY_CNT];
         for (int i = 0; i < TEST_TRY_CNT; i++) {
             execTimes2[i] = perfTestWithVar();
         }
         msg = "Вариант с переменной отработывает за: %.2f мс.%n";
-        System.out.printf(msg, calcArrayAverage(execTimes2));
+        System.out.printf(msg, ArrayMethods.calcArrayAverage(execTimes2));
 
         double[] execTimes = new double[TEST_TRY_CNT];
         for (int i = 0; i < TEST_TRY_CNT; i++) {
             execTimes[i] = perfTestWithoutVar();
         }
         msg = "Вариант с arr1.length отработывает за: %.2f мс.%n";
-        System.out.printf(msg, calcArrayAverage(execTimes));
-    }
-
-    //Посчитать среднее арифметическое для массива double
-    public static double calcArrayAverage(double[] arr1) {
-        double sum = 0;
-        for (double val : arr1) {
-            sum += val;
-        }
-        return sum / arr1.length;
-    }
-
-    // Создать массив и заполнить его случайными числами от 0 до 100
-    public static int[] genArray() {
-        final int SIZE = 30000;
-        int[] arr1 = new int[SIZE];
-        for (int i = 0; i < arr1.length; i++) {
-            arr1[i] = (int) (Math.random() * 100);
-        }
-        return arr1;
+        System.out.printf(msg, ArrayMethods.calcArrayAverage(execTimes));
     }
 
     // Без переменной
     private static double perfTestWithoutVar() {
-        int[] arr1 = genArray();
+        int[] arr1 = ArrayMethods.genArray(TEST_ARRAYS_SIZE);
 
         // Засекаем время
         long m = System.currentTimeMillis();
@@ -70,7 +72,7 @@ public class MainPerfTest {
 
     // С переменной
     private static double perfTestWithVar() {
-        int[] arr1 = genArray();
+        int[] arr1 = ArrayMethods.genArray(TEST_ARRAYS_SIZE);
 
         // Засекаем время
         long m = System.currentTimeMillis();
@@ -93,7 +95,7 @@ public class MainPerfTest {
 
     // С константой
     private static double perfTestWithConst() {
-        int[] arr1 = genArray();
+        int[] arr1 = ArrayMethods.genArray(TEST_ARRAYS_SIZE);
 
         // Засекаем время
         long m = System.currentTimeMillis();
